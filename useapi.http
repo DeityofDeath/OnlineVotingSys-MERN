@@ -1,0 +1,67 @@
+###user creation
+post http://localhost:4000/voters-api/register
+Content-Type: application/json
+
+{
+    "userType":"user",
+    "username":"rikhil1",
+    "password":"1234",
+    "Name":"rikhil",
+    "phone":"1234567899",
+    "dob": "1990-01-01",
+    "gender":"Male"
+}
+
+
+#### user login
+post http://localhost:4000/voters-api/login
+Content-Type: application/json
+
+{
+    "userType":"user",
+    "username":"rikhil",
+    "password":"1234"
+   
+}
+
+
+#### admin login
+post http://localhost:4000/admin-api/login
+Content-Type: application/json
+
+{
+    "userType":"user",
+    "username":"rikhil",
+    "password":"1234"
+   
+}
+
+### admin voter count
+get  http://localhost:4000/admin-api/count
+
+### admin add election
+post http://localhost:4000/admin-api/addElection
+Content-Type: application/json
+
+{
+    "electionTitle":"Ele1",
+    "startDate":"YYYY-MM-DD HH:mm:ss",
+    "endDate":"YYYY-MM-DD HH:mm:ss",
+    "Candidate1":"Name of candidate one",
+    "Candidate2":"Name of  Candidate two"
+}
+
+### admin delete election
+DELETE http://localhost:4000/admin-api/deleteElection/Ele1
+
+
+###  user vote
+get http://localhost:4000/voters-api/vote/rikhil
+
+### voted count
+get http://localhost:4000/admin-api/votedcount
+
+### stop the election
+put http://localhost:4000/admin-api/stopElection
+
+
