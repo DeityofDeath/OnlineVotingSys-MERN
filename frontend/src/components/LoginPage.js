@@ -50,7 +50,7 @@ function LoginPage() {
           theme: "light",
         });
         if (loginType === "user") {
-          navigate("/voter-home");
+          navigate(`/voter-home/${username}`);
         } else {
           navigate("/admin-home");
         }

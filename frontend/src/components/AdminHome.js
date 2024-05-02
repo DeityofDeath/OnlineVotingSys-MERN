@@ -10,7 +10,7 @@ function AdminHome() {
     const id = location.pathname.split("/").pop();
     const [votersCount, setVotersCount] = useState(0);
     const [votedCount, setVotedCount] = useState(0);
-    const [electionsCount, setElectionsCount] = useState(0);
+    const [eleCount, setElectionsCount] = useState(0);
     const [adminUsername, setAdminUsername] = useState("Rikhil"); 
 
     useEffect(() => {
@@ -30,9 +30,9 @@ function AdminHome() {
                 console.error("Error fetching voted count:", error);
             });
 
-        axios.get("/elections-api/electionsCount")
+        axios.get("/admin-api/electionsCount")
             .then(response => {
-                setElectionsCount(response.data.electionCount);
+                setElectionsCount(response.data.electionsCount);
             })
             .catch(error => {
                 console.error("Error fetching elections count:", error);
@@ -56,7 +56,7 @@ function AdminHome() {
                                     <p className="card-text">Voters who have Not Voted: {votersCount - votedCount}</p>
                                 </div>
                                 <div className="card-footer text-center">
-                                    <Link to={`/Admin/VoterList/${id}`} className="btn btn-warning">View Voter List</Link>
+                                    <Link to={`/Admin/VoterList`} className="btn btn-warning">View Voter List</Link>
                                 </div>
                             </div>
                         </div>
@@ -64,11 +64,10 @@ function AdminHome() {
                             <div className="card h-100">
                                 <div className="card-body">
                                     <h5 className="card-title">Add Elections</h5>
-                                    <p className="card-text">Total Number of Elections: {electionsCount}</p>
+                                    <p className="card-text">Total Number of Elections: {eleCount}</p>
                                 </div>
                                 <div className="card-footer text-center">
-                                    <Link to={`/Admin/AddElection/${id}`} className="btn btn-warning me-2">Add Election</Link>
-                                    <Link to={`/Admin/deleteElection/${id}`} className="btn btn-warning">Delete Election</Link>
+                                    <Link to={`/Admin/Election`} className="btn btn-warning">Manage Elections</Link>
                                 </div>
                             </div>
                         </div>
@@ -76,11 +75,10 @@ function AdminHome() {
                             <div className="card h-100">
                                 <div className="card-body">
                                     <h5 className="card-title">See and Post Results</h5>
-                                    <p className="card-text">Total Number of Results(ongoing): {electionsCount}</p>
+                                    <p className="card-text">Total Number of Results(ongoing): 1</p>
                                 </div>
                                 <div className="card-footer text-center">
-                                    <Link to={`/Admin/Results/${id}`} className="btn btn-warning me-2">View Results</Link>
-                                    <Link to={`/Admin/PostResult/${id}`} className="btn btn-warning">Post Result</Link>
+                                    <Link to={`/Admin/Results`} className="btn btn-warning">Manage Results</Link>
                                 </div>
                             </div>
                         </div>

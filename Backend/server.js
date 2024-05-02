@@ -14,10 +14,12 @@ mongoClient.connect(process.env.DB_URL)
     const elections=votedb.collection('elections')
     const admin=votedb.collection('admin')
     const votes=votedb.collection("votes")
+    const results = votedb.collection("results")
     app.set('voters',voters)
     app.set('elections',elections)
     app.set('admin',admin)
     app.set('votes',votes)
+    app.set('results',results)
     console.log("DB connection success")
 })
 .catch(err=>console.log("Err in DB connection",err))
@@ -29,7 +31,6 @@ const adminApp = require('./APIs/admin-api');
 
 
 app.use('/voters-api', votersApp);
-app.use('/elections-api', electionsApp);
 app.use('/admin-api', adminApp);
 
 

@@ -20,10 +20,10 @@ function Index() {
                   technologies like React, Node.js, and MongoDB. Always eager to learn and explore new technologies.
                 </p>
                 <div className="mt-4">
-                  <a href="#" className="btn btn-primary" style={{ marginRight: "10px" }} target="_blank" rel="noopener noreferrer">
+                  <a href="https://github.com/DeityofDeath" className="btn btn-primary" style={{ marginRight: "10px" }} target="_blank" rel="noopener noreferrer">
                     GitHub
                   </a>
-                  <a href="#" className="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                  <a href="www.linkedin.com/in/rikhil-rao-janagama-047972284" className="btn btn-secondary" target="_blank" rel="noopener noreferrer">
                     LinkedIn
                   </a>
                 </div>

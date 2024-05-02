@@ -46,9 +46,7 @@ Content-Type: application/json
 {
     "electionTitle":"Ele1",
     "startDate":"YYYY-MM-DD HH:mm:ss",
-    "endDate":"YYYY-MM-DD HH:mm:ss",
-    "Candidate1":"Name of candidate one",
-    "Candidate2":"Name of  Candidate two"
+    "endDate":"YYYY-MM-DD HH:mm:ss"
 }
 
 ### admin delete election
@@ -62,6 +60,46 @@ get http://localhost:4000/voters-api/vote/rikhil
 get http://localhost:4000/admin-api/votedcount
 
 ### stop the election
-put http://localhost:4000/admin-api/stopElection
+put http://localhost:4000/admin-api/stopElection/Ele1
 
+### get count of elections
+get http://localhost:4000/admin-api/electionsCount
 
+### get the voter list
+get http://localhost:4000/admin-api/voterList
+
+### get the elections
+get http://localhost:4000/admin-api/elections
+
+### post the participants
+post http://localhost:4000/admin-api/elections/Ele1/participants
+Content-Type: application/json
+
+{
+    "name":"C1",
+    "description":"A very enthusiastic person",
+    "numberOfVotes":0
+}
+
+### get the participants
+get http://localhost:4000/admin-api/elections/Ele1
+
+### vote 
+post  http://localhost:4000/voters-api/vote/Ele1/rikhil/2
+
+### has voted or not
+get http://localhost:4000/voters-api/hasVoted/Ele1/rikhil
+
+### get voter profile
+get  http://localhost:4000/voters-api/voter/rikhil
+
+### get ongoing election results
+get http://localhost:4000/admin-api//results/ongoingElection
+
+### post results
+post http://localhost:4000/admin-api/resultsPost
+Content-Type: application/json
+
+{
+
+}

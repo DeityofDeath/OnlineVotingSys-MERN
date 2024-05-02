@@ -33,14 +33,17 @@ function AdminNav() {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0"></ul>
                     <form className="d-flex navs" role="search">
-                        <Link to="/Admin/Home" className={`nav-link text-dark ${location.pathname === '/Admin/Home' ? 'locActive' : ''}`}>
+                        <Link to="/admin-home" className={`nav-link text-dark ${location.pathname === '/admin-home' ? 'locActive' : ''}`}>
                             Home
                         </Link>
-                        <Link to="/Admin/NewElection" className={`nav-link text-dark ${location.pathname === '/Admin/NewElection' ? 'locActive' : ''}`}>
-                            New Election
+                        <Link to="/Admin/Election" className={`nav-link text-dark ${location.pathname === '/Admin/Election' ? 'locActive' : ''}`}>
+                            Elections
                         </Link>
-                        <Link to="/Admin/Voters" className={`nav-link text-dark ${location.pathname === '/Admin/Voters' ? 'locActive' : ''}`}>
+                        <Link to="/Admin/VoterList" className={`nav-link text-dark ${location.pathname === '/Admin/VoterList' ? 'locActive' : ''}`}>
                             Voters
+                        </Link>
+                        <Link to="/Admin/Results" className={`nav-link text-dark ${location.pathname === '/Admin/Results' ? 'locActive' : ''}`}>
+                            Results
                         </Link>
                         <hr className="hr" />
                         <Link to='#' >  <button onClick={handleLogout} className="btn btn-outline-danger" type="button">Sign Out<i class="fa-solid fa-user"></i></button> </Link>

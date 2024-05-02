@@ -10,12 +10,14 @@ let voters;
 let admin;
 let elections;
 let votes;
+let results;
 
 votersApp.use((req, res, next) => {
     voters = req.app.get("voters");
     admin = req.app.get("admin");
     elections = req.app.get("elections");
     votes = req.app.get("votes");
+    results = req.app.get("results");
     next();
   });
 
@@ -74,27 +76,114 @@ votersApp.post(
     })
   );
 
-
-
-  // voter voting only if the status of election is true
-  votersApp.get('/vote/:username',expressAsyncHandler(async(req,res)=>{
-    const voterInfo = req.params.username;
-    let voteInfo = await votes.findOne({username : voterInfo});
-    let eleInfo = await elections.findOne();
-    if(voteInfo.voted===false && eleInfo.status===true){
-    try{
-      let vinfo = await votes.findOneAndUpdate({username:voterInfo},{$set:{voted:true}});
-      res.json(vinfo);
-    }catch(err){
-      return res.status(500).json({message:"error the vote is not registered"})
+  votersApp.get("/voter/:username", expressAsyncHandler(async (req, res) => {
+    const username = req.params.username;
+    try {
+        const voter = await voters.findOne({ username });
+        if (!voter) {
+            return res.status(404).json({ message: "Voter not found" });
+        }
+        res.status(200).json(voter);
+    } catch (error) {
+        console.error("Can't get profile", error);
+        res.status(500).json({ message: "Error fetching profile" });
     }
-  }else{
-    return res.json({message:"The vote has already been casted"})
+}));
+
+
+
+
+
+  votersApp.post(
+    "/vote/:electionTitle/:username/:candidateId",
+    expressAsyncHandler(async (req, res) => {
+        const { electionTitle, username, candidateId } = req.params;
+        try {
+            const voter = await votes.findOne({ username });
+            if (!voter || voter.voted) {
+                return res.status(400).json({ message: "You have already voted" });
+            }
+            const updateResult = await elections.updateOne(
+              { electionTitle, "participants.id": parseInt(candidateId) },
+              { $inc: { "participants.$.numberOfVotes": 1 } }
+          );
+          const election = await elections.findOne({ electionTitle: electionTitle });
+          if (!election.voters) {
+            election.voters = [];
+          }
+          await elections.updateOne({ electionTitle: electionTitle }, { $push: { voters: username } });
+
+          if (updateResult.modifiedCount === 0) {
+              return res.status(404).json({ message: "Candidate not found in the election" });
+          }
+          await votes.updateOne({ username }, { $set: { voted: true, for: candidateId } });
+          return res.json({ message: "Vote recorded successfully" });
+        } catch (error) {
+            console.error("Error voting:", error);
+            res.status(500).json({ message: "Error voting" });
+        }
+    })
+);
+
+
+// Get active elections
+votersApp.get(
+  "/activeElections",
+  expressAsyncHandler(async (req, res) => {
+      try {
+          const activeElections = await elections.find({ status: true }).toArray();
+          res.json(activeElections);
+      } catch (error) {
+          console.error("Error fetching active elections:", error);
+          res.status(500).json({ message: "Error fetching active elections" });
+      }
+  })
+);
+
+// Get candidates for a specific election
+votersApp.get("/candidates/:electionTitle", expressAsyncHandler(async (req, res) => {
+  const { electionTitle } = req.params;
+  try {
+      const election = await elections.findOne({ electionTitle });
+      if (!election) {
+          res.status(404).json({ message: "Election not found" });
+          return;
+      }
+      res.json(election.participants);
+  } catch (error) {
+      console.error("Error fetching candidates:", error);
+      res.status(500).json({ message: "Error fetching candidates" });
   }
-  }))
+}));
 
 
-  
+// voted has voted or not
+votersApp.get("/hasVoted/:electionTitle/:username", expressAsyncHandler(async (req, res) => {
+  const { electionTitle, username } = req.params;
+  try {
+      const election = await elections.findOne({ electionTitle });
+      if (!election) {
+          return res.status(404).json({ message: "Election not found" });
+      }
+      const hasVoted = election.voters.includes(username);
+      res.status(200).json({ hasVoted });
+  } catch (err) {
+      console.error("Error checking if user has voted:", err);
+      res.status(500).json({ message: "Error checking if user has voted" });
+  }
+}));
+
+
+// get the results
+votersApp.get("/results", expressAsyncHandler(async (req, res) => {
+  try {
+    const allResults = await results.find({}).toArray();
+    res.status(200).send(allResults);
+  }catch (error) {
+    console.error('Error fetching results:', error);
+    res.status(500).send({ message: 'Failed to fetch results' });
+}
+}));
 
 module.exports = votersApp;
 
