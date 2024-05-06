@@ -26,7 +26,6 @@ mongoClient.connect(process.env.DB_URL)
 
 
 const votersApp = require('./APIs/voters-api');
-const electionsApp = require('./APIs/elections-api');
 const adminApp = require('./APIs/admin-api');
 
 

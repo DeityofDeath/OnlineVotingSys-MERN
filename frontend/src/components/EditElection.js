@@ -103,7 +103,7 @@ function EditElection() {
                     </div>
                 </div>
             </div>
-            <div><br /><br /><br /></div>
+            <div><br /><br /><br /><br></br><br></br><br></br><br></br><br></br></div>
             <div className="fixed-bottom">
                 <Foot />
             </div>
