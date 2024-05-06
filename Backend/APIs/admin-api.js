@@ -234,6 +234,7 @@ adminApp.delete('/elections/:electionTitle/participants/:participantId', express
 adminApp.post('/resetVotes', expressAsyncHandler(async (req, res) => {
     try{
         await votes.updateMany({},{$set:{voted:false,for:-1}})
+        await elections.updateOne({status:true},{$set: { voters: [] },$set: { "participants.$[].numberOfVotes": 0 }})
         res.send('Votes reset')
     }catch(err){
         console.log(err)

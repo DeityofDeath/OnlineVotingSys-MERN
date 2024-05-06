@@ -13,8 +13,8 @@ function RegistrationPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [dateOfBirth, setDateOfBirth] = useState("");
+  const [phone, setPhoneNumber] = useState("");
+  const [dob, setDateOfBirth] = useState("");
   const [gender, setGender] = useState("");
   const [passwordMatchError, setPasswordMatchError] = useState(false);
   const [registrationMessage, setRegistrationMessage] = useState("");
@@ -30,8 +30,8 @@ function RegistrationPage() {
       username,
       password,
       name,
-      phoneNumber,
-      dateOfBirth,
+      phone,
+      dob,
       gender,
     };
   
@@ -111,7 +111,7 @@ function RegistrationPage() {
                     <input
                       type="text"
                       className="form-control"
-                      value={phoneNumber}
+                      value={phone}
                       onChange={(e) => setPhoneNumber(e.target.value)}
                       required
                     />
@@ -133,6 +133,7 @@ function RegistrationPage() {
                       className="form-control"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
+                      minLength={4}
                       required
                     />
                   </div>
@@ -143,6 +144,7 @@ function RegistrationPage() {
                       className="form-control"
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
+                      minLength={4}
                       required
                     />
                     {passwordMatchError && (
@@ -154,7 +156,7 @@ function RegistrationPage() {
                     <input
                       type="date"
                       className="form-control"
-                      value={dateOfBirth}
+                      value={dob}
                       onChange={(e) => setDateOfBirth(e.target.value)}
                       required
                     />
